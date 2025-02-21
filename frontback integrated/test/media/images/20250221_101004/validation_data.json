@@ -1,0 +1,26 @@
+{
+    "status": "success",
+    "message": "User validation passed.",
+    "validation_results": {
+        "blur_check": {
+            "status": true,
+            "message": "Image is clear.",
+            "laplacian_variance": 230.08723357580246
+        },
+        "brightness_check": {
+            "status": true,
+            "message": "Brightness is adequate.",
+            "brightness": 186.36242222222222
+        },
+        "distance_check": {
+            "status": true,
+            "message": "Face is at 44.00 cm.",
+            "distance": 44.0
+        },
+        "blink_detected": {
+            "status": true,
+            "message": "1 blinks detected.",
+            "blink_count": 1
+        }
+    }
+}

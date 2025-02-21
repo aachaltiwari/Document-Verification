@@ -1,0 +1,845 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <script defer src="face-api.min.js"></script>
+    <!-- Load Face API -->
+
+    <!-- Bootstrap CSS -->
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+      crossorigin="anonymous"
+    />
+
+    {% include "base.html" %}
+  </head>
+
+  <body>
+    <br /><br /><br /><br />
+    <!-- ::::::::::::Camera Live::::::::::::::: -->
+
+    {% block content %}
+
+    <div class="container my-2 mx-0 align-items-center">
+      <h1 class="text-center">Camera Validation</h1>
+
+      <!-- Enclose the video element within the video-container -->
+      <div class="video-container d-flex justify-content-center">
+        <video id="video" autoplay playsinline></video>
+        <div class="face-overlay"></div>
+        <!-- Face-shaped overlay -->
+      </div>
+      <div class="d-flex justify-content-sm-center">
+        <canvas
+          id="canvas"
+          style="display: none"
+          class="align-items-center"
+        ></canvas>
+        <button id="startBtn" class="btn btn-outline-success my-2">
+          Start Validation
+        </button>
+        <div id="progress-bar">
+          <div id="progress" class="my-2 mx-1"></div>
+        </div>
+        <div id="results" class="my-2 mx-1"></div>
+      </div>
+    </div>
+    <!-- ::::::::::::::::::;My camera setting:::::::::::::::::::::::: -->
+    <!-- <div class="container" style="margin: 20px auto; width: 50%;">
+        <h1 class="my-5">Live Camera with Face Detection</h1>
+        <video id="video" class="" autoplay style=" width: 100%; border: 1.5px solid black; border-radius: 8px;"></video>
+        <canvas id="canvas" style="display: none;"></canvas>
+        <button id="capture" class="btn btn-outline-success">Capture</button>
+        <button id="startCamera" class="btn btn-outline-success">Start Camera</button>
+    </div> -->
+    <hr class="mx-2" />
+    <!-- ::::::::::Form Submsission::::::::::::     -->
+    <div class="form-container mx-1 mt-2 p-2">
+      <h1>Form Submission</h1>
+      <h2>
+        <pre class="text-justify">
+                        <big>Required:</big>
+        
+                        सबै फिल्डहरू वास्तविक र सही हुनुपर्छ। कृपया फारम 
+                        बुझाउनु अघि सबै विवरणहरू ध्यानपूर्वक जाँच गर्नुहोस्।
+                        
+                        फारम बुझाउने प्रक्रिया:
+                        
+                        1.  आवश्यक सबै फिल्डहरू सही रूपमा भरिएको छ भन्ने सुनिश्चित गर्नुहोस्।
+                        2.  कुनै गलत वा भ्रामक जानकारी प्रविष्ट नगर्नुहोस्।
+                        3.  एक पटक बुझाइसकेपछि, सुधार गर्न सकिने छैन।
+                        4.  तपाईंले बुझाएपछि, तपाईंको विवरण समीक्षा गरिनेछ।
+                        5. तपाईंका शब्दहरू अंग्रेजी भाषामा हुनुपर्छ।
+        
+                        कृपया "Submit" बटन थिचेर फारम बुझाउनुहोस्।
+                        
+                    </pre
+        >
+      </h2>
+      <form id="contactForm">
+        <div class="container m-2">
+          <div class="row row-cols-4">
+            <div class="col-6">
+              <h4>Front Fillup!</h4>
+              <div class="col-12">
+                <label for="number"><strong>Citizenship No.</strong></label>
+                <input
+                  type="number"
+                  class="form-control"
+                  id="number"
+                  name="number"
+                  placeholder="Enter Your Correct Citizenship number!"
+                  aria-label="Citizenship Number"
+                />
+              </div>
+              <div class="col d-flex gap-2">
+                <div class="col-md-6">
+                  <label for="name1"><strong>FullName</strong></label>
+                  <input
+                    type="text"
+                    class="form-control"
+                    id="name1"
+                    name="name1"
+                    placeholder="Enter Your Correct Fullname!"
+                    aria-label="name"
+                  />
+                </div>
+                <div class="col-md-4">
+                  <label for="gender"><strong>Gender</strong></label>
+                  <select name="gender" id="gender" class="form-select">
+                    <option selected>Choose...</option>
+                    <option>Male</option>
+                    <option>Female</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-12">
+                <label for="place1"><strong>Birthplace</strong></label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="place1"
+                  name="place1"
+                  placeholder="Sunsari, Dharan-5"
+                  aria-label="Birthplace"
+                />
+              </div>
+
+              <div class="col-12">
+                <label for="permanent1" class="form-label"
+                  ><strong>Permanent Address</strong></label
+                >
+                <input
+                  type="text"
+                  name="permanent1"
+                  class="form-control"
+                  id="permanent1"
+                  placeholder="Sunsari, Dharan-15"
+                />
+              </div>
+
+              <div class="col-md-4">
+                <label for="birth1" class="form-label"
+                  ><strong>Birthdate</strong></label
+                >
+                <input
+                  type="date"
+                  name="birth1"
+                  class="form-control"
+                  id="birth1"
+                />
+              </div>
+              <div class="col d-flex gap-2">
+                <div class="col-md-6">
+                  <label for="father" class="form-label"
+                    ><strong>Father's name</strong></label
+                  >
+                  <input
+                    type="text"
+                    name="father"
+                    class="form-control"
+                    id="father"
+                    placeholder="Enter Your Father's Name!"
+                  />
+                </div>
+                <div class="col-md-6">
+                  <label for="cititype1"
+                    ><strong>Citizenship Type</strong></label
+                  >
+                  <select id="cititype1" name="cititype1" class="form-select">
+                    <option selected>Choose...</option>
+                    <option>Citizenship by Descent</option>
+                    <option>Naturalized Citizenship</option>
+                    <option>Honorary Citizenship</option>
+                    <option>NRN Citizenship</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-12">
+                <label for="fatheradd" class="form-label"
+                  ><strong>Father's Address</strong></label
+                >
+                <input
+                  type="text"
+                  name="fatheradd"
+                  class="form-control"
+                  id="fatheradd"
+                  placeholder="Enter Your Father's Citizenship Address!"
+                />
+              </div>
+
+              <div class="col d-flex gap-2">
+                <div class="col-md-6">
+                  <label for="mother" class="form-label"
+                    ><strong>Mother's name</strong></label
+                  >
+                  <input
+                    type="text"
+                    name="mother"
+                    class="form-control"
+                    id="mother"
+                    placeholder="Enter Your Mother's Name!"
+                  />
+                </div>
+                <div class="col-md-6">
+                  <label for="cititype2"
+                    ><strong>Citizenship Type</strong></label
+                  >
+                  <select id="cititype2" name="cititype2" class="form-select">
+                    <option selected>Choose...</option>
+                    <option>Citizenship by Descent</option>
+                    <option>Naturalized Citizenship</option>
+                    <option>Honorary Citizenship</option>
+                    <option>NRN Citizenship</option>
+                  </select>
+                </div>
+              </div>
+              <div class="col-12">
+                <label for="motheradd" class="form-label"
+                  ><strong>Mother's Address</strong></label
+                >
+                <input
+                  type="text"
+                  name="motheradd"
+                  class="form-control"
+                  id="motheradd"
+                  placeholder="Enter Your Mother's Citizenship Address!"
+                />
+              </div>
+            </div>
+
+            <div class="col-6 px-4">
+              <h4>Back Fillup!</h4>
+              <div class="col-md-6">
+                <label for="name2"><strong>Full name</strong></label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="name2"
+                  name="name2"
+                  placeholder="Enter Your Correct Full Name!"
+                  aria-label="First name"
+                />
+              </div>
+
+              <div class="col-md-6">
+                <label for="birth2"><strong>Birthdate</strong></label>
+                <input
+                  type="date"
+                  class="form-control"
+                  id="birth2"
+                  name="birth2"
+                  placeholder="Enter Your Birthdate!"
+                  aria-label="Birthdate"
+                />
+              </div>
+
+              <div class="col-12">
+                <label for="place2"><strong>Birthplace</strong></label>
+                <input
+                  type="text"
+                  class="form-control"
+                  id="place2"
+                  name="place2"
+                  placeholder="Sunsari, Dharan-5"
+                  aria-label="Birthplace"
+                />
+              </div>
+
+              <div class="col-12">
+                <label for="permanent2" class="form-label"
+                  ><strong>Permanent Address</strong></label
+                >
+                <input
+                  type="text"
+                  name="permanent2"
+                  class="form-control"
+                  id="permanent2"
+                  placeholder="Sunsari, Dharan-15"
+                />
+              </div>
+
+              <div class="col-md-6">
+                <label for="issue" class="form-label"
+                  ><strong>Date Issue</strong></label
+                >
+                <input
+                  type="date"
+                  name="issue"
+                  class="form-control"
+                  id="issue"
+                  placeholder="Enter the date in AD"
+                />
+              </div>
+            </div>
+          </div>
+        </div>
+        <button
+          type="submit"
+          class="btn btn-outline-success my-2"
+          id="submitBtn"
+        >
+          <strong>Submit</strong>
+        </button>
+      </form>
+    </div>
+
+    <hr class="mx-2" />
+
+    <h1>Citizenship Document Validation</h1>
+    <div class="container mx-1 mt-2 p-2">
+      <form id="uploadForm" method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div class="container">
+          <div class="row">
+            <div class="col">
+              <label for="frontImage">Upload Front of Citizenship:</label>
+              <input
+                type="file"
+                id="frontImage"
+                name="front"
+                accept="image/*"
+                required
+              />
+              <div class="validation-errors" id="frontErrors"></div>
+            </div>
+
+            <div class="col">
+              <label for="backImage">Upload Back of Citizenship:</label>
+              <input
+                type="file"
+                id="backImage"
+                name="back"
+                accept="image/*"
+                required
+              />
+              <div class="validation-errors" id="backErrors"></div>
+            </div>
+          </div>
+        </div>
+        <div class="preview">
+          <div>
+            <strong>Front Preview:</strong>
+            <img
+              id="frontPreview"
+              src="#"
+              alt="Front Preview"
+              style="display: none"
+            />
+          </div>
+          <div>
+            <strong>Back Preview:</strong>
+            <img
+              id="backPreview"
+              src="#"
+              alt="Back Preview"
+              style="display: none"
+            />
+          </div>
+        </div>
+
+        <button
+          class="btn btn-outline-success"
+          type="submit"
+          id="submitButton"
+          disabled
+        >
+          Submit
+        </button>
+      </form>
+      <div id="validationResult" class="result"></div>
+    </div>
+
+    {% endblock %}
+    <!-- :::::::::::::::::::::::Camera Validation:::::::::::::::: -->
+    <script>
+        const video = document.getElementById("video");
+        const canvas = document.getElementById("canvas");
+        const startBtn = document.getElementById("startBtn");
+        const resultsDiv = document.getElementById("results");
+        const progressBar = document.getElementById("progress");
+        let stream;
+        let interval;
+  
+        async function startCamera() {
+          try {
+            stream = await navigator.mediaDevices.getUserMedia({ video: true });
+            video.srcObject = stream;
+            updateProgress(0, "Starting camera...");
+          } catch (error) {
+            showError(`Error accessing the camera: ${error.message}`);
+          }
+        }
+  
+        function captureFrames() {
+          const videoFrames = [];
+          const context = canvas.getContext("2d");
+          const frameRate = 5; // Capture 5 frames per second
+          const intervalTime = 1000 / frameRate; // Interval time in ms
+          updateProgress(10, "Capturing frames...");
+  
+          interval = setInterval(() => {
+            context.drawImage(video, 0, 0, canvas.width, canvas.height);
+            const frame = canvas.toDataURL("image/jpeg");
+            videoFrames.push(frame);
+            console.log("Captured frame:", frame); // Log each captured frame
+          }, intervalTime);
+  
+          setTimeout(() => {
+            clearInterval(interval);
+            updateProgress(25, "Frames captured.");
+            if (videoFrames.length === 0) {
+              showError("No frames captured. Please try again.");
+              return;
+            }
+            console.log("Total frames captured:", videoFrames.length); // Log total frames
+            validateUser(videoFrames);
+          }, 5000); // Capture frames for 5 seconds
+        }
+  
+        function validateUser(videoFrames) {
+          const formData = new FormData();
+          videoFrames.forEach((frame, index) => {
+            const blob = dataURLtoBlob(frame);
+            console.log(`Appending frame ${index + 1}:`, blob); // Log each frame being appended
+            formData.append("video_frames[]", blob, `frame_${index + 1}.jpg`);
+          });
+  
+          fetch("http://127.0.0.1:8000/validate_user/", {
+            // replace with actual API endpoint
+            method: "POST",
+            body: formData,
+          })
+            .then((response) => response.json())
+            .then((data) => {
+              console.log("Backend response:", data); // Log backend response
+              if (data.status === "success") {
+                updateProgress(100, "Validation successful!");
+                resultsDiv.innerHTML = `<p class="success">${data.message}</p>`;
+              } else {
+                updateProgress(100, "Validation failed.");
+                resultsDiv.innerHTML = `<span class="error">Error: ${data.message}</span>`;
+                if (data.validation_results) {
+                  handleValidationDetails(data.validation_results);
+                }
+              }
+            })
+            .catch((error) => {
+              updateProgress(100, "Error during validation.");
+              showError(`Error during validation: ${error.message}`);
+            });
+        }
+  
+        function dataURLtoBlob(dataURL) {
+          const byteString = atob(dataURL.split(",")[1]);
+          const mimeString = dataURL.split(",")[0].split(":")[1].split(";")[0];
+          const arrayBuffer = new ArrayBuffer(byteString.length);
+          const uintArray = new Uint8Array(arrayBuffer);
+          for (let i = 0; i < byteString.length; i++) {
+            uintArray[i] = byteString.charCodeAt(i);
+          }
+          return new Blob([arrayBuffer], { type: mimeString });
+        }
+  
+        function updateProgress(percentage, message) {
+          progressBar.style.width = percentage + "%";
+          progressBar.innerText = message || "";
+        }
+  
+        function handleValidationDetails(details) {
+          resultsDiv.innerHTML = ""; // Clear previous results
+          Object.entries(details).forEach(([key, value]) => {
+            const resultDiv = document.createElement("div");
+            resultDiv.classList.add("validation-result");
+  
+            const title = document.createElement("h3");
+            title.textContent = key.replace(/_/g, " ",);
+            resultDiv.appendChild(title);
+  
+            const statusPara = document.createElement("p");
+            statusPara.textContent = `Status: ${
+              value.status ? "Success" : "Failure"
+            }`;
+            statusPara.classList.add(value.status ? "success" : "error");
+            resultDiv.appendChild(statusPara);
+  
+            const messagePara = document.createElement("p");
+            messagePara.textContent = `Message: ${value.message}`;
+            resultDiv.appendChild(messagePara);
+  
+            // Add extra details if available (like variance, brightness, distance, etc.)
+            if (value.laplacian_variance !== undefined) {
+              const variancePara = document.createElement("p");
+              variancePara.textContent = `Laplacian Variance: ${value.laplacian_variance}`;
+              resultDiv.appendChild(variancePara);
+            }
+  
+            if (value.brightness !== undefined) {
+              const brightnessPara = document.createElement("p");
+              brightnessPara.textContent = `Brightness: ${value.brightness}`;
+              resultDiv.appendChild(brightnessPara);
+            }
+  
+            if (value.distance !== undefined) {
+              const distancePara = document.createElement("p");
+              distancePara.textContent = `Distance: ${value.distance} cm`;
+              resultDiv.appendChild(distancePara);
+            }
+  
+            if (value.blink_count !== undefined) {
+              const blinkCountPara = document.createElement("p");
+              blinkCountPara.textContent = `Blink Count: ${value.blink_count}`;
+              resultDiv.appendChild(blinkCountPara);
+            }
+  
+            resultsDiv.appendChild(resultDiv);
+          });
+        }
+  
+        function showError(message) {
+          resultsDiv.innerHTML = `<span class="error">${message}</span>`;
+        }
+  
+        startBtn.addEventListener("click", () => {
+          if (!stream) {
+            startCamera();
+          }
+          captureFrames();
+        });
+  
+        // Start camera when the page loads
+        window.onload = startCamera;
+      </script>
+    </script>
+    <!-- :::::::::::::::::::::Major File Validation:::::::: -->
+    <script>
+      document.addEventListener("DOMContentLoaded", () => {
+        const frontInput = document.getElementById("frontImage");
+        const backInput = document.getElementById("backImage");
+        const submitButton = document.getElementById("submitButton");
+        const validationResult = document.getElementById("validationResult");
+
+        const frontPreview = document.getElementById("frontPreview");
+        const backPreview = document.getElementById("backPreview");
+        const frontErrors = document.getElementById("frontErrors");
+        const backErrors = document.getElementById("backErrors");
+
+        let frontValid = false;
+        let backValid = false;
+
+        // Function to update image preview
+        function updatePreview(input, previewElement) {
+          if (input.files && input.files[0]) {
+            const reader = new FileReader();
+            reader.onload = (e) => {
+              previewElement.src = e.target.result;
+              previewElement.style.display = "block";
+            };
+            reader.readAsDataURL(input.files[0]);
+          } else {
+            previewElement.src = "#";
+            previewElement.style.display = "none";
+          }
+        }
+
+        // Function to validate file
+        async function validateFile(file, side, errorsElement, otherFile) {
+          if (!file) {
+            errorsElement.textContent = `${side} file is missing.`;
+            return false;
+          }
+          if (!otherFile) {
+            errorsElement.textContent = `Other side file is missing.`;
+            return false;
+          }
+
+          const formData = new FormData();
+          formData.append("front", file);
+          formData.append("back", otherFile);
+          try {
+            const response = await fetch(
+              "http://127.0.0.1:8000/citizenship_validate/",
+              {
+                method: "POST",
+                body: formData,
+              }
+            );
+
+            if (!response.ok) {
+              throw new Error("Failed to validate image.");
+            }
+
+            const result = await response.json();
+
+            if (result.success) {
+              errorsElement.textContent = ""; // Clear errors
+              return true; // Validation passed
+            } else {
+              // Display detailed error messages
+              errorsElement.textContent = result.errors
+                ? result.errors.join(", ")
+                : `${side} validation failed.`;
+              return false; // Validation failed
+            }
+          } catch (error) {
+            errorsElement.textContent = `Error validating ${side}: ${error.message}`;
+            return false; // Validation failed
+          }
+        }
+
+        // Handle validation when files are selected
+        async function handleValidation() {
+          validationResult.textContent = "";
+          validationResult.style.display = "none";
+
+          // Validate front image
+          if (frontInput.files.length > 0) {
+            frontValid = await validateFile(
+              frontInput.files[0],
+              "Front",
+              frontErrors,
+              backInput.files[0]
+            );
+          } else {
+            frontValid = false;
+            frontErrors.textContent = "No file selected.";
+          }
+
+          // Validate back image
+          if (backInput.files.length > 0) {
+            backValid = await validateFile(
+              backInput.files[0],
+              "Back",
+              backErrors,
+              frontInput.files[0]
+            );
+          } else {
+            backValid = false;
+            backErrors.textContent = "No file selected.";
+          }
+
+          // Enable submit button only if both validations pass
+          if (frontValid && backValid) {
+            submitButton.disabled = false;
+            validationResult.textContent = "Both images passed validation!";
+            validationResult.className = "result";
+            validationResult.style.display = "block";
+          } else {
+            submitButton.disabled = true;
+          }
+        }
+
+        // Update previews and trigger validation on file selection
+        frontInput.addEventListener("change", () => {
+          updatePreview(frontInput, frontPreview);
+          handleValidation();
+        });
+        backInput.addEventListener("change", () => {
+          updatePreview(backInput, backPreview);
+          handleValidation();
+        });
+
+        // Handle form submission
+        document
+          .getElementById("uploadForm")
+          .addEventListener("submit", async (event) => {
+            event.preventDefault(); // Prevent default form submission
+            if (frontValid && backValid) {
+              alert("Both images are valid! Proceeding with submission...");
+              // You can add additional logic here to handle the final submission
+            }
+          });
+      });
+    </script>
+
+    <!-- ::::::::::::::::::::::::Form Fillup::::::::::::::::; -->
+    <script>
+      // let uploadedFiles = { image1: null, image2: null };
+
+      // function handleImageUpload(event, imgId, key) {
+      //     const file = event.target.files[0];
+      //     if (!file) return;
+
+      //     if (!['image/jpeg', 'image/png'].includes(file.type)) {
+      //         alert('Only JPEG and PNG images are allowed.');
+      //         return;
+      //     }
+
+      //     if (file.size > 100 * 1024 * 1024) {
+      //         alert('File size must be under 100MB.');
+      //         return;
+      //     }
+
+      //     uploadedFiles[key] = file;
+
+      //     const reader = new FileReader();
+      //     reader.onload = function (e) {
+      //         const img = document.getElementById(imgId);
+      //         img.src = e.target.result;
+      //         img.style.display = 'block';
+      //     };
+      //     reader.readAsDataURL(file);
+      // }
+
+      // document.getElementById('imageInput1').addEventListener('change', function (event) {
+      //     handleImageUpload(event, 'preview1', 'image1');
+      // });
+
+      // document.getElementById('imageInput2').addEventListener('change', function (event) {
+      //     handleImageUpload(event, 'preview2', 'image2');
+      // });
+
+      document
+        .getElementById("submitBtn")
+        .addEventListener("click", function () {
+          // ::::::::::::::At once:::::::::::::
+          document
+            .getElementById("contactForm")
+            .addEventListener("submit", function (e) {
+              e.preventDefault(); // Prevent the default form submission behavior
+
+              // Collect form data
+              const number = document.getElementById("number").value;
+              const name1 = document.getElementById("name1").value;
+              const gender = document.getElementById("gender").value;
+              const place1 = document.getElementById("place1").value;
+              const permanent1 = document.getElementById("permanent1").value;
+              const birth1 = document.getElementById("birth1").value;
+              const father = document.getElementById("father").value;
+              const cititype1 = document.getElementById("cititype1").value;
+              const fatheradd = document.getElementById("fatheradd").value;
+              const mother = document.getElementById("mother").value;
+              const cititype2 = document.getElementById("cititype2").value;
+              const motheradd = document.getElementById("motheradd").value;
+              const name2 = document.getElementById("name2").value;
+              const birth2 = document.getElementById("birth2").value;
+              const place2 = document.getElementById("place2").value;
+              const permanent2 = document.getElementById("permanent2").value;
+              const issue = document.getElementById("issue").value;
+
+              // Create an object to hold the form data
+              const formData = {
+                number: number,
+                name1: name1,
+                gender: gender,
+                place1: place1,
+                permanent1: permanent1,
+                birth1: birth1,
+                father: father,
+                cititype1: cititype1,
+                fatheradd: fatheradd,
+                mother: mother,
+                cititype2: cititype2,
+                motheradd: motheradd,
+                name2: name2,
+                birth2: birth2,
+                place2: place2,
+                permanent2: permanent2,
+                issue: issue,
+              };
+
+              // Log the form data to the console
+              console.log(formData);
+              alert("You have submitted successfully!");
+              // Optionally, reset the form after submission
+              contactForm.reset();
+            });
+
+          // ::::::My image upload::::::::::::
+          //     if (uploadedFiles.image1 || uploadedFiles.image2) {
+          //         console.log('Submitted files:', uploadedFiles);
+          //         alert('You have submitted successfully!');
+          //         setTimeout(() => {
+          //             document.getElementById('imageInput1').value = '';
+          //             document.getElementById('imageInput2').value = '';
+          //             document.getElementById('preview1').style.display = 'none';
+          //             document.getElementById('preview2').style.display = 'none';
+          //             uploadedFiles = { image1: null, image2: null };
+          //         }, 1000);
+          //     } else {
+          //         alert('No images uploaded!');
+          //     }
+        });
+    </script>
+
+    <!-- Bootstrap Bundle with Popper -->
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+      crossorigin="anonymous"
+    ></script>
+
+    <!-- ::::::::::Video Capture:::::::::::::::     -->
+    <script>
+      // const video = document.getElementById('video');
+      // const canvas = document.getElementById('canvas');
+      // const captureButton = document.getElementById('capture');
+      // const startCameraButton = document.getElementById('startCamera');
+
+      // async function startCamera() {
+      //     try {
+      //         const stream = await navigator.mediaDevices.getUserMedia({ video: true });
+      //         video.srcObject = stream;
+
+      //         // Load Face API models
+      //         await faceapi.nets.tinyFaceDetector.loadFromUri('models');
+      //         await faceapi.nets.faceLandmark68Net.loadFromUri('models');
+      //         await faceapi.nets.faceRecognitionNet.loadFromUri('models');
+
+      //         detectFaces();
+      //     } catch (error) {
+      //         console.error('Error accessing camera:', error);
+      //     }
+      // }
+
+      // async function detectFaces() {
+      //     const displaySize = { width: video.width, height: video.height };
+      //     faceapi.matchDimensions(video, displaySize);
+
+      //     setInterval(async () => {
+      //         const detections = await faceapi.detectAllFaces(video, new faceapi.TinyFaceDetectorOptions())
+      //             .withFaceLandmarks()
+      //             .withFaceDescriptors();
+      //         console.log(detections);
+      //     }, 100);
+      // }
+
+      // captureButton.addEventListener('click', () => {
+      //     const context = canvas.getContext('2d');
+      //     canvas.width = video.videoWidth;
+      //     canvas.height = video.videoHeight;
+      //     context.drawImage(video, 0, 0, canvas.width, canvas.height);
+
+      //     // Convert image to data URL
+      //     const imageData = canvas.toDataURL('image/png');
+      //     console.log("Captured Image: ", imageData);
+      // });
+
+      // startCameraButton.addEventListener('click', startCamera);
+    </script>
+  </body>
+</html>
