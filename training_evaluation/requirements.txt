@@ -1,0 +1,11 @@
+# pip install dlib/filename (install accourding to your python version) -> do this first
+numpy==1.26.4
+tensorflow
+matplotlib
+easyocr
+opencv-python
+transformers
+sentencepiece
+fuzzywuzzy
+face_recognition
+python-Levenshtein
