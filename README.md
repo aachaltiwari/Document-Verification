@@ -3,9 +3,9 @@
 ## Overview
 This project focuses on document verification by integrating multiple machine learning models for document classification, OCR-based text extraction, text similarity checking, face comparison and face recognition. The system verifies a user's identity by analyzing submitted documents using deep learning techniques.
 
-##About the Contributor
+**About the Contributor**
 
-##Ganesh Chaudhary — Front-end Developer
+**Ganesh Chaudhary — Front-end Developer**
 Hello world!. In this project, my responsibilites to build the front-end part and I fulfilled through this:
 1. Built a user-friendly interface using HTML, CSS, JavaScript, and Bootstrap
 2. Prioritized mobile-responsive design
